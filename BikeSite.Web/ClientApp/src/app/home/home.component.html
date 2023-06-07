@@ -1,0 +1,20 @@
+<div class="card">
+  <p-table [value]="bikes" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>BikeId</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bike>
+      <tr>
+        <td>{{ bike.bikeId }}</td>
+        <td>{{ bike.model }}</td>
+        <td>{{ bike.frameSize }}</td>
+        <td>{{ bike.price }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
