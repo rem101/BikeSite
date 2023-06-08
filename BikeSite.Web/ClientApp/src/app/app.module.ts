@@ -5,7 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { DropdownModule } from "primeng/dropdown";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from "primeng/ripple";
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { InputTextModule } from "primeng/inputtext";
+import { InputNumberModule } from 'primeng/inputnumber';
+
 
 @NgModule({
   declarations: [
@@ -13,13 +23,22 @@ import { TableModule } from 'primeng/table';
     HomeComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
+    ButtonModule,
+    MessageModule,
+    MessagesModule,
     TableModule,
+    ToastModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-    ])
+      {path: '', component: HomeComponent, pathMatch: 'full'},
+    ]),
+    DropdownModule,
+    RippleModule,
+    InputTextModule,
+    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]

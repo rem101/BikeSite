@@ -8,8 +8,8 @@ namespace BikeSite.Service;
 public interface IBikeService
 {
     Task<OperationResult<List<BikeDto>>> GetBikes();
-    Task<OperationResult<BikeDto>> CreateOrUpdateBike(BikeDto domain);
-    Task<OperationResult<int>> RemoveBike(Guid bikeId);
+    Task<OperationResult<List<BikeDto>>> CreateOrUpdateBike(BikeDto domain);
+    Task<OperationResult<List<BikeDto>>> RemoveBike(Guid bikeId);
 }
 
 public class BikeService : IBikeService
@@ -42,17 +42,17 @@ public class BikeService : IBikeService
         }
     }
 
-    public async Task<OperationResult<BikeDto>> CreateOrUpdateBike(BikeDto domain)
+    public async Task<OperationResult<List<BikeDto>>> CreateOrUpdateBike(BikeDto domain)
     {
         try
         {
             if (domain.BikeId.HasValue)
             {
                 //Update
-                var bike = _dbContext.Bikes.FirstOrDefault(x => x.BikeId == domain.BikeId.Value);
+                var bike = _dbContext.Bikes.Include(b => b.Brand).FirstOrDefault(x => x.BikeId == domain.BikeId.Value);
                 if (bike == null)
                 {
-                    return new OperationResult<BikeDto>()
+                    return new OperationResult<List<BikeDto>>()
                     {
                         Success = false,
                         Error = $"Bike {domain.BikeId.Value} was not found"
@@ -64,7 +64,7 @@ public class BikeService : IBikeService
                     var brand = _dbContext.BikeBrands.FirstOrDefault(x => x.BrandId == domain.Brand.BikeBrandId);
                     if (brand == null)
                     {
-                        return new OperationResult<BikeDto>()
+                        return new OperationResult<List<BikeDto>>()
                         {
                             Success = false,
                             Error = $"Brand {domain.Brand.BikeBrandId} was not found"
@@ -75,18 +75,17 @@ public class BikeService : IBikeService
 
                 bike.Model = domain.Model;
                 bike.Price = domain.Price;
-                return new OperationResult<BikeDto>()
-                {
-                    Success = true,
-                    Value = BikeDto.FromModel(bike)
-                };
+
+                _dbContext.Bikes.Update(bike);
+                await _dbContext.SaveChangesAsync();
+                return await GetBikes();
             }
             else //insert
             {
                 var brand = _dbContext.BikeBrands.FirstOrDefault(x => x.BrandId == domain.Brand.BikeBrandId);
                 if (brand == null)
                 {
-                    return new OperationResult<BikeDto>()
+                    return new OperationResult<List<BikeDto>>()
                     {
                         Success = false,
                         Error = $"Brand {domain.Brand.BikeBrandId} was not found"
@@ -94,23 +93,20 @@ public class BikeService : IBikeService
                 }
                 var bike = new Bike()
                 {
-                    BikeId = new Guid(),
+                    BikeId = Guid.NewGuid(),
                     FrameSize = domain.FrameSize,
                     Model = domain.Model,
-                    BikeBrandId = brand.Id
+                    BikeBrandId = brand.Id,
+                    Price = domain.Price
                 };
                 var entity = await _dbContext.Bikes.AddAsync(bike);
                 await _dbContext.SaveChangesAsync();
-                return new OperationResult<BikeDto>()
-                {
-                    Success = true,
-                    Value = BikeDto.FromModel(entity.Entity)
-                };
+                return await GetBikes();
             }
         }
         catch (Exception e)
         {
-            return new OperationResult<BikeDto>()
+            return new OperationResult<List<BikeDto>>()
             {
                 Success = false,
                 Error = e.ToString()
@@ -118,14 +114,14 @@ public class BikeService : IBikeService
         }
     }
     
-    public async Task<OperationResult<int>> RemoveBike(Guid bikeId)
+    public async Task<OperationResult<List<BikeDto>>> RemoveBike(Guid bikeId)
     {
         try
         {
             var bike = _dbContext.Bikes.FirstOrDefault(x => x.BikeId == bikeId);
             if (bike == null)
             {
-                return new OperationResult<int>()
+                return new OperationResult<List<BikeDto>>()
                 {
                     Success = false,
                     Error = $"Bike {bikeId} was not found"
@@ -134,15 +130,11 @@ public class BikeService : IBikeService
 
             _dbContext.Bikes.Remove(bike);
             await _dbContext.SaveChangesAsync();
-            return new OperationResult<int>()
-            {
-                Success = false,
-                Value = 0
-            };
+            return await GetBikes();
         }
         catch (Exception e)
         {
-            return new OperationResult<int>()
+            return new OperationResult<List<BikeDto>>()
             {
                 Success = false,
                 Error = e.ToString()

@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddScoped<ILookupService, LookupService>();
 builder.Services.AddScoped<IBikeService, BikeService>();
 
 builder.Services.AddControllersWithViews();

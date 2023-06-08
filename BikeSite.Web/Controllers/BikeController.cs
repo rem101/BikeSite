@@ -23,21 +23,21 @@ public class BikeController : ControllerBase
         return await _bikeService.GetBikes();
     }
     
-    [HttpPut]
-    public async Task<OperationResult<BikeDto>> Create([FromBody] BikeDto bike)
+    [HttpPost]
+    public async Task<OperationResult<List<BikeDto>>> Create([FromBody] BikeDto bike)
     {
         return await _bikeService.CreateOrUpdateBike(bike);
     }
     
-    [HttpPost]
-    public async Task<OperationResult<BikeDto>> Update([FromBody] BikeDto bike)
+    [HttpPut]
+    public async Task<OperationResult<List<BikeDto>>> Update([FromBody] BikeDto bike)
     {
         return await _bikeService.CreateOrUpdateBike(bike);
     }
 
     [HttpDelete]
     [Route("{bikeId}")]
-    public async Task<OperationResult<int>> Delete(Guid bikeId)
+    public async Task<OperationResult<List<BikeDto>>> Delete(Guid bikeId)
     {
         return await _bikeService.RemoveBike(bikeId);
     }

@@ -1,20 +1,68 @@
 <div class="card">
-  <p-table [value]="bikes" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-toast></p-toast>
+  <p-table #dt [value]="bikes" [tableStyle]="{ 'min-width': '50rem' }" dataKey="bikeId" editMode="row">
     <ng-template pTemplate="header">
       <tr>
-        <th>BikeId</th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Quantity</th>
+        <th pSortableColumn="brand" style="width:20%">Brand<p-sortIcon field="brand"></p-sortIcon></th>
+        <th pSortableColumn="model" style="width:20%">Model<p-sortIcon field="model"></p-sortIcon></th>
+        <th pSortableColumn="frameSize" style="width:20%">frameSize<p-sortIcon field="frameSize"></p-sortIcon></th>
+        <th pSortableColumn="price" style="width:20%">Price<p-sortIcon field="price"></p-sortIcon></th>
+        <th style="width:20%"></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-bike>
-      <tr>
-        <td>{{ bike.bikeId }}</td>
-        <td>{{ bike.model }}</td>
-        <td>{{ bike.frameSize }}</td>
-        <td>{{ bike.price }}</td>
+    <ng-template pTemplate="body" let-bike let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="bike">
+        <td pEditableColumn="brand">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown [options]="brands" [required]="true" appendTo="body" [(ngModel)]="bike.brand" optionLabel="brand" [style]="{'width':'100%'}"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{bike.brand.brand}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn="model">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" required="true" minlength="1" [(ngModel)]="bike.model" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{bike.model}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn="frameSize">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber [required]="true" [min]="12" [max]="62" [(ngModel)]="bike.frameSize" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{bike.frameSize}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn="price">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber mode="decimal" [required]="true" [(ngModel)]="bike.price" [minFractionDigits]="2" [maxFractionDigits]="2" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{bike.price | currency}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(bike)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash" (click)="onRowDelete(bike)" class="p-button-rounded p-button-text p-button-danger"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(bike)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(bike, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
       </tr>
     </ng-template>
   </p-table>
+  <button pButton type="button"icon="pi pi-plus" class="ui-button-info" [label]="'Add'"
+          (click)="onNewRow()"></button>
 </div>

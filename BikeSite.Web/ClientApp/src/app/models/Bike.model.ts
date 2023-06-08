@@ -1,5 +1,6 @@
 export interface Bike {
-  bikeId: string;
+  bikeId: string | undefined;
+  model: string;
   price: number;
   frameSize: number;
   brand: BikeBrand;
