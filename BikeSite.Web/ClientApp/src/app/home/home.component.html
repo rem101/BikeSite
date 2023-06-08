@@ -12,7 +12,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-bike let-editing="editing" let-ri="rowIndex">
       <tr [pEditableRow]="bike">
-        <td pEditableColumn="brand">
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-dropdown [options]="brands" [required]="true" appendTo="body" [(ngModel)]="bike.brand" optionLabel="brand" [style]="{'width':'100%'}"></p-dropdown>
@@ -22,7 +22,7 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td pEditableColumn="model">
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input pInputText type="text" required="true" minlength="1" [(ngModel)]="bike.model" />
@@ -32,7 +32,7 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td pEditableColumn="frameSize">
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-inputNumber [required]="true" [min]="12" [max]="62" [(ngModel)]="bike.frameSize" />
@@ -42,7 +42,7 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td pEditableColumn="price">
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-inputNumber mode="decimal" [required]="true" [(ngModel)]="bike.price" [minFractionDigits]="2" [maxFractionDigits]="2" />
