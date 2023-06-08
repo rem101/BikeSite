@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeSite.Dal", "BikeSite.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeSite.Service", "BikeSite.Service\BikeSite.Service.csproj", "{1323D551-6E9A-40F1-AC21-F0DA9369EB10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeSite.Service.Test", "BikeSite.Service.Test\BikeSite.Service.Test.csproj", "{D6666005-28F0-48A8-9221-5AFBC64840C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{1323D551-6E9A-40F1-AC21-F0DA9369EB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1323D551-6E9A-40F1-AC21-F0DA9369EB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1323D551-6E9A-40F1-AC21-F0DA9369EB10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6666005-28F0-48A8-9221-5AFBC64840C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6666005-28F0-48A8-9221-5AFBC64840C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6666005-28F0-48A8-9221-5AFBC64840C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6666005-28F0-48A8-9221-5AFBC64840C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

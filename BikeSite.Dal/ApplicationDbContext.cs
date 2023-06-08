@@ -7,6 +7,9 @@ namespace BikeSite.Dal;
 public class ApplicationDbContext : DbContext
 {
     protected readonly IConfiguration Configuration;
+    
+    //For testing
+    public ApplicationDbContext() {}
 
     public ApplicationDbContext(IConfiguration configuration)
     {
